@@ -90,13 +90,15 @@ body {
 .buttons {
     text-align: center;
     margin-top: 45px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .download-button, .tech-button {
     display: inline-block;
     height: 45px;
     line-height: 45px;
-    width: 175px;
+    padding: 0 15px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
@@ -109,9 +111,6 @@ body {
     color: #fff;
 }
 
-.tech-button {
-    margin-left: 35px;
-}
 
 .contact {
     position: absolute;
