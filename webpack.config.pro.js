@@ -21,9 +21,6 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new CopyWebpackPlugin(copys)
-  ],
   resolve: {
     extensions: [".ts", ".js" ]
   },
@@ -32,6 +29,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
   plugins: [
+    new CopyWebpackPlugin(copys),
     new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("production") }),
     new UglifyJsPlugin(),
   ],
