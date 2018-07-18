@@ -27,7 +27,10 @@ function coverUser(): void {
     });
 }
 
-let pageNumber: any = -1;
+function init() {
+    addMagicButton();
+    coverUser();
+}
 
 // 关闭升级提示
 $(document.body).delegate('[data-id="not-show-update-tip"]', 'click', () => {
@@ -37,16 +40,23 @@ $(document.body).delegate('[data-id="not-show-update-tip"]', 'click', () => {
 
 if (hasComments()) {
     const body: any = document.body;
-    body.arrive('.item-comment', { existing: true, onceOnly: true }, () => {
-        setTimeout(() => {
-            const $pageNumberInput = $('.ipt-pager-old');
-            const currentPageNumber =  $('.ipt-pager-old').length > 0 ?  Number($('.ipt-pager-old').val()) : 1;
-            if (pageNumber !== currentPageNumber) {
-                pageNumber = currentPageNumber;
-                addMagicButton();
-                coverUser();
+    body.arrive('#area-comment-inner', { existing: true, onceOnly: true }, () => {
+        const comment = document.getElementById('area-comment-inner');
+        const config = { attributes: true, childList: true, subtree: true };
+        const observer = new MutationObserver(function(mutationsList) {
+            console.log(mutationsList)
+            if (
+                mutationsList.length > 0
+                && (mutationsList[0].target as Element).id === 'area-comment-inner'
+                && mutationsList[0].addedNodes.length > 0
+                &&  (mutationsList[0].addedNodes[0]  as Element).classList.contains('item-comment')
+            ) {
+                init();
             }
         });
+
+        // Start observing the target node for configured mutations
+        observer.observe(comment, config);
     });
 
     $('.comment-area').delegate('input[data-magic]', 'click', function () {
