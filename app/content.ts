@@ -28,6 +28,7 @@ function coverUser(): void {
 }
 
 function init() {
+    console.log('init');
     addMagicButton();
     coverUser();
 }
@@ -44,14 +45,15 @@ if (hasComments()) {
         const comment = document.getElementById('area-comment-inner');
         const config = { attributes: true, childList: true, subtree: true };
         const observer = new MutationObserver(function(mutationsList) {
-            console.log(mutationsList)
-            if (
-                mutationsList.length > 0
-                && (mutationsList[0].target as Element).id === 'area-comment-inner'
-                && mutationsList[0].addedNodes.length > 0
-                &&  (mutationsList[0].addedNodes[0]  as Element).classList.contains('item-comment')
-            ) {
-                init();
+           
+            if (mutationsList.length > 0 && mutationsList[0].addedNodes.length > 0) {
+                for (const el of Array.from(mutationsList[0].addedNodes)) {
+                    const classList = (el as Element).classList;
+                    if (classList && classList.contains('item-comment')) {
+                        init();
+                        return;
+                    }
+                }
             }
         });
 
@@ -70,8 +72,8 @@ if (hasComments()) {
         $(this).val('施法中...')
         $.ajax({
             method: 'get',
-            url: '//mcfun.trisolaries.com/v2/comment',
-            // url: '//localhost:8000/v2/comment',
+            // url: '//mcfun.trisolaries.com/v2/comment',
+            url: '//localhost:8000/v2/comment',
             dataType: 'json',
             data: { id },
         })
