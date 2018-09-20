@@ -28,7 +28,6 @@ function coverUser(): void {
 }
 
 function init() {
-    console.log('init');
     addMagicButton();
     coverUser();
 }
@@ -64,10 +63,6 @@ if (hasComments()) {
     $('.comment-area').delegate('input[data-magic]', 'click', function () {
         const $itemComment = $(this).closest('.item-comment');
         const id = $itemComment.attr('id').replace(/c-/i, '');
-
-        if (id) {
-            
-        }
 
         $(this).val('施法中...')
         $.ajax({
