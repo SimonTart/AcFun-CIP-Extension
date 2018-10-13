@@ -3,5 +3,3 @@
 
 ## 官网地址
 http://acfun.trisolaries.com/
-
-## API
