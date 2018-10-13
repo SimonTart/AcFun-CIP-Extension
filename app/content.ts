@@ -41,14 +41,16 @@ $(document.body).delegate('[data-id="not-show-update-tip"]', 'click', () => {
 if (hasComments()) {
     const body: any = document.body;
     body.arrive('#area-comment-inner', { existing: true, onceOnly: true }, () => {
+        console.log('arrive');
         const comment = document.getElementById('area-comment-inner');
         const config = { attributes: true, childList: true, subtree: true };
         const observer = new MutationObserver(function(mutationsList) {
-           
+
             if (mutationsList.length > 0 && mutationsList[0].addedNodes.length > 0) {
                 for (const el of Array.from(mutationsList[0].addedNodes)) {
                     const classList = (el as Element).classList;
                     if (classList && classList.contains('item-comment')) {
+                        console.log('observer');
                         init();
                         return;
                     }
@@ -65,6 +67,7 @@ if (hasComments()) {
         const id = $itemComment.attr('id').replace(/c-/i, '');
 
         $(this).val('施法中...')
+        console.log(id)
         $.ajax({
             method: 'get',
             url: '//mcfun.trisolaries.com/v2/comment',
@@ -105,7 +108,7 @@ if (hasComments()) {
                     const $authorComment = $itemComment.children('.author-comment:contains(用户不存在或已删除)');
                     // 移除不必要的
                     $authorComment.find('.name[data-type="cover"]').remove();
-    
+
                     const $name = $authorComment.find('.name:contains(用户不存在或已删除)');
                     const href = $name.attr('href').replace('-1.aspx', res.result.userId + '.aspx');
                     $name.attr('data-uid',  res.result.userId).attr('href', href).text(res.result.username).show();
@@ -115,6 +118,9 @@ if (hasComments()) {
                 })
             }
         })
-        .catch(() => { $(this).val('施法失败') })
+        .catch((err) => {
+            console.log(err)
+            $(this).val('施法失败');
+        })
     });
 }

@@ -16,5 +16,7 @@
     "matches": ["*://www.acfun.cn/a/*","*://www.acfun.cn/v/*"],
     "js": ["./content_script.js"]
   }],
-  "permissions": []
+  "permissions": [
+    "*://*.trisolaries.com/*"
+  ]
 }

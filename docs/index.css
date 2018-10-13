@@ -46,6 +46,7 @@ body {
 
 .desc-block {
     flex: 1 1 auto;
+    padding: 0 15px;
 }
 
 .video-block {
@@ -83,34 +84,73 @@ body {
     line-height: 1.7;
     text-align: center;
     margin-bottom: 100px;
-    color: #fd4c5b;
+    color: #ffffff;
     font-weight: bold;
     margin: 0;
 }
+
 .buttons {
     text-align: center;
     margin-top: 45px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #fff;
 }
 
-.download-button, .tech-button {
-    display: inline-block;
+.download-button {
+    display: flex;
+    align-items: center;
     height: 45px;
     line-height: 45px;
-    padding: 0 15px;
+    padding: 0 25px;
     text-align: center;
     text-decoration: none;
     font-size: 16px;
-    border: 1px solid #fd4c5b;
-    color: #fd4c5b;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    border-radius: 22.5px;
+    margin-right: 35px;
 }
 
-.download-button:hover, .tech-button:hover {
-    border: 1px solid #fff;
+.buttons .download-button:last-child {
+    margin-right: 0;
+}
+
+.buttons .download-button > img {
+    width: 25px;
+}
+
+.buttons .download-button .button-text {
+    padding-left: 16px;
+}
+
+.extra-tips {
+    margin-top: 7px;
+    text-align: center;
+}
+
+.tip-button {
+    padding: 0 15px;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    border-radius: 22.5px;
+    margin-right: 15px;
+}
+
+.extra-tips-content {
+    display: inline-block;
+    width: 395px;
+    text-align: left;
+}
+
+.extra-tips-content > a {
+    font-size: 14px;
+    text-decoration: none;
     color: #fff;
 }
-
 
 .contact {
     position: absolute;
@@ -151,7 +191,7 @@ body {
     height: 35px;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #fff; 
+    border-bottom: 1px solid #fff;
     display: flex;
 }
 

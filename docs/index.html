@@ -22,9 +22,20 @@
                     一个恢复被删除的评论的插件
                 </p>
                 <div class="buttons">
-                    <a href="https://chrome.google.com/webstore/detail/completed-acfun/mhpjihcolfmanjipbiileobmpljepjod" target="_blank" class="download-button">Chrome应用商城下载</a>
-                    <a href="./acfun-v2.0.4.crx" class="download-button" download>本地下载</a>
-                    <a href="http://www.williamlong.info/archives/3160.html" class="tech-button" target="_blank">本地安装教程</a>
+                    <a href="https://chrome.google.com/webstore/detail/completed-acfun/mhpjihcolfmanjipbiileobmpljepjod" target="_blank" class="download-button">
+                        <img src="./icons/chrome.svg" alt="Chrome">
+                        <span class="button-text">Chrome下载</span>
+                    </a>
+                    <a href="https://addons.mozilla.org/en-US/firefox/addon/completed-acfun/" target="_blank" class="download-button">
+                        <img src="./icons/firefox.svg" alt="Firefox">
+                        <span class="button-text">Firefox下载</span>
+                    </a>
+                </div>
+                <div class="extra-tips">
+                    <div class="extra-tips-content">
+                        <a href="./acfun-v2.0.4.crx" download class="tip-button">Chrome离线下载</a>
+                        <a href="http://www.williamlong.info/archives/3160.html" target="_blank" class="tip-button">Chrome离线安装教程</a>
+                    </div>
                 </div>
             </div>
             <div class="video-block">
@@ -38,9 +49,18 @@
     <div class="alert upgrade-log-alert">
         <div class="alert-header">
             <div class="alert-title">更新日志</div>
-            <dic class="alert-close">x</dic>
+            <div class="alert-close">x</div>
         </div>
         <div class="alert-body">
+            <div class="content-item">
+                <div class="content-item-header">
+                    <div class="content-item-header-time">2018-11-13</div>
+                    <div class="content-item-header-title">添加Firefox</div>
+                </div>
+                <div class="content-item-content">
+                    1. 添加Firefox版插件
+                </div>
+            </div>
             <div class="content-item">
                 <div class="content-item-header">
                     <div class="content-item-header-time">2018-04-15</div>
@@ -85,7 +105,7 @@
     <div class="alert public-notice-alert">
         <div class="alert-header">
             <div class="alert-title">公告</div>
-            <dic class="alert-close">x</dic>
+            <div class="alert-close">x</div>
         </div>
         <div class="alert-body">
             <div class="content-item">
@@ -120,7 +140,7 @@
     <div class="alert contact-author-alert">
         <div class="alert-header">
             <div class="alert-title">Bug和意见反馈</div>
-            <dic class="alert-close">x</dic>
+            <div class="alert-close">x</div>
         </div>
         <div class="alert-body">
             <div class="content-item">
@@ -134,7 +154,7 @@
         (function() {
             var hm = document.createElement("script");
             hm.src = "https://hm.baidu.com/hm.js?0243fbd66c977f5c459740039c4cf20f";
-            var s = document.getElementsByTagName("script")[0]; 
+            var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
         })();
         </script>
