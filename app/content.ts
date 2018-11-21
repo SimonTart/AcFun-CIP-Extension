@@ -8,10 +8,9 @@ function hasComments(): Boolean {
 }
 
 function addMagicButton(): void {
-    $('.author-comment[data-uid="-1"]').each((_, element) => {
+    $('.content-comment:contains(\'该评论已被删除\')').each((_, element) => {
         $(element)
-            .prev()
-            .filter((_, el) => $(el).find('input').length === 0)
+            .filter((_, el) => el.textContent && el.textContent.trim() === '该评论已被删除')
             .append($('<input data-magic type="button" value="施法">'))
     });
 }

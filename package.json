@@ -1,7 +1,7 @@
 {
-  "name": "eva_acfun",
+  "name": "AcFun-CIP",
   "version": "1.0.0",
-  "description": "",
+  "description": "AcFun Comment Instrumentality Project Extension（A站评论补全计划插件)",
   "main": "webpack.config.js",
   "dependencies": {
     "arrive": "^2.4.1",
