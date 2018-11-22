@@ -6,3 +6,11 @@ AcFun Comment Instrumentality Project Extension A站评论补全计划插件
 
 ## 官网地址
 http://acfun.trisolaries.com/
+
+
+## 相关资源
+[AcFun-CIP-Observer](https://github.com/SimonTart/AcFun-CIP-Observer)
+
+[AcFun-CIP-Extension](https://github.com/SimonTart/AcFun-CIP-Extension)
+
+[AcFun-CIP-Official-Site](https://github.com/SimonTart/AcFun-CIP-Official-Site)
