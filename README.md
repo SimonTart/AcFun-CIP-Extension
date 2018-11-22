@@ -7,6 +7,16 @@ AcFun Comment Instrumentality Project Extension A站评论补全计划插件
 ## 官网地址
 http://acfun.trisolaries.com/
 
+## 开发
+```bash
+npm run dev
+```
+
+## 打包
+```bash
+npm run build
+```
+
 
 ## 相关资源
 [AcFun-CIP-Observer](https://github.com/SimonTart/AcFun-CIP-Observer)
