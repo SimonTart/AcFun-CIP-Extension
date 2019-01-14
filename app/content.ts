@@ -3,6 +3,22 @@ import compareVersions from 'compare-versions';
 import 'arrive'
 import * as manifest from './manifest.json';
 
+
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+
 function hasComments(): Boolean {
     return $('.comment-area').length > 0;
 }
@@ -27,6 +43,7 @@ function coverUser(): void {
 }
 
 function init() {
+    console.log('init')
     addMagicButton();
     coverUser();
 }
@@ -38,17 +55,20 @@ $(document.body).delegate('[data-id="not-show-update-tip"]', 'click', () => {
 });
 
 if (hasComments()) {
-    const body: any = document.body;
+    const body: any = document.body
+    const debounceInit = debounce(init, 1000, false);;
     body.arrive('#area-comment-inner', { existing: true, onceOnly: true }, () => {
         const comment = document.getElementById('area-comment-inner');
         const config = { attributes: true, childList: true, subtree: true };
         const observer = new MutationObserver(function(mutationsList) {
+            console.log(mutationsList)
             for (let mutation of mutationsList) {
                 if (mutation.addedNodes.length > 0) {
                     for (const el of Array.from(mutation.addedNodes)) {
                         const classList = (el as Element).classList;
-                        if (classList && classList.contains('main-comment-item')) {
-                            init();
+                        if (classList && classList.contains('comment-item')) {
+                            console.log('debounceInit')
+                            debounceInit();
                             return;
                         }
                     }
@@ -62,15 +82,19 @@ if (hasComments()) {
 
     $('.comment-area').delegate('input[data-magic]', 'click', function () {
         const $itemComment = $(this).closest('.comment-item');
-        const id = $itemComment.attr('data-cid');
+        const contentId = window.location.pathname.split('/ac')[1];
+        const count = $itemComment.find('> .comment-name-bar .comment-floor').text().split('#')[1];
 
         $(this).val('施法中...')
         $.ajax({
             method: 'get',
-            url: '//mcfun.trisolaries.com/v2/comment',
-            // url: '//localhost:8000/v2/comment',
+            url: 'http://api.acfun.trisolar.top/v2/comment',
+            // url: 'http://localhost:8000/v2/comment',
             dataType: 'json',
-            data: { id },
+            data: {
+                content_id: contentId,
+                count,
+            },
         })
         .then((res) => {
             let content = res.content;
