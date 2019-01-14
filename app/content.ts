@@ -3,12 +3,28 @@ import compareVersions from 'compare-versions';
 import 'arrive'
 import * as manifest from './manifest.json';
 
+
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+
 function hasComments(): Boolean {
     return $('.comment-area').length > 0;
 }
 
 function addMagicButton(): void {
-    $('.content-comment:contains(\'该评论已被删除\')').each((_, element) => {
+    $('.comment-content:contains(\'该评论已被删除\')').each((_, element) => {
         $(element)
             .filter((_, el) => el.textContent && el.textContent.trim() === '该评论已被删除')
             .append($('<input data-magic type="button" value="施法">'))
@@ -16,7 +32,7 @@ function addMagicButton(): void {
 }
 
 function coverUser(): void {
-    $('.author-comment .name:contains(用户不存在或已删除)')
+    $('.comment-name-bar .name[href*="/u/0.aspx"]')
     .filter((_, el) =>　$(el).parent().find('.name[data-type="cover"]').length === 0)
     .each((_, el) => {
         const $name = $(el);
@@ -27,6 +43,7 @@ function coverUser(): void {
 }
 
 function init() {
+    console.log('init')
     addMagicButton();
     coverUser();
 }
@@ -38,20 +55,22 @@ $(document.body).delegate('[data-id="not-show-update-tip"]', 'click', () => {
 });
 
 if (hasComments()) {
-    const body: any = document.body;
+    const body: any = document.body
+    const debounceInit = debounce(init, 1000, false);;
     body.arrive('#area-comment-inner', { existing: true, onceOnly: true }, () => {
-        console.log('arrive');
         const comment = document.getElementById('area-comment-inner');
         const config = { attributes: true, childList: true, subtree: true };
         const observer = new MutationObserver(function(mutationsList) {
-
-            if (mutationsList.length > 0 && mutationsList[0].addedNodes.length > 0) {
-                for (const el of Array.from(mutationsList[0].addedNodes)) {
-                    const classList = (el as Element).classList;
-                    if (classList && classList.contains('item-comment')) {
-                        console.log('observer');
-                        init();
-                        return;
+            console.log(mutationsList)
+            for (let mutation of mutationsList) {
+                if (mutation.addedNodes.length > 0) {
+                    for (const el of Array.from(mutation.addedNodes)) {
+                        const classList = (el as Element).classList;
+                        if (classList && classList.contains('comment-item')) {
+                            console.log('debounceInit')
+                            debounceInit();
+                            return;
+                        }
                     }
                 }
             }
@@ -62,17 +81,20 @@ if (hasComments()) {
     });
 
     $('.comment-area').delegate('input[data-magic]', 'click', function () {
-        const $itemComment = $(this).closest('.item-comment');
-        const id = $itemComment.attr('id').replace(/c-/i, '');
+        const $itemComment = $(this).closest('.comment-item');
+        const contentId = window.location.pathname.split('/ac')[1];
+        const count = $itemComment.find('> .comment-name-bar .comment-floor').text().split('#')[1];
 
         $(this).val('施法中...')
-        console.log(id)
         $.ajax({
             method: 'get',
-            url: '//mcfun.trisolaries.com/v2/comment',
-            // url: '//localhost:8000/v2/comment',
+            url: 'http://api.acfun.trisolar.top/v2/comment',
+            // url: 'http://localhost:8000/v2/comment',
             dataType: 'json',
-            data: { id },
+            data: {
+                content_id: contentId,
+                count,
+            },
         })
         .then((res) => {
             let content = res.content;
@@ -82,10 +104,10 @@ if (hasComments()) {
             }
 
             // 设置内容
-            if ($(this).closest('.content-comment').length > 0) {
-                $(this).closest('.content-comment').html(content);
+            if ($(this).closest('.comment-content').length > 0) {
+                $(this).closest('.comment-content').html(content);
             } else {
-                $(this).prev('.content-comment').html(content);
+                $(this).prev('.comment-content').html(content);
             }
 
             // 移除不必要的
@@ -104,12 +126,12 @@ if (hasComments()) {
                     if (res.code !== 200) {
                         return;
                     }
-                    const $authorComment = $itemComment.children('.author-comment:contains(用户不存在或已删除)');
+                    const $authorComment = $itemComment.children('.comment-name-bar .name[href*="/u/0.aspx"]');
                     // 移除不必要的
                     $authorComment.find('.name[data-type="cover"]').remove();
 
                     const $name = $authorComment.find('.name:contains(用户不存在或已删除)');
-                    const href = $name.attr('href').replace('-1.aspx', res.result.userId + '.aspx');
+                    const href = $name.attr('href').replace('0.aspx', res.result.userId + '.aspx');
                     $name.attr('data-uid',  res.result.userId).attr('href', href).text(res.result.username).show();
 
                     // 显示时间
