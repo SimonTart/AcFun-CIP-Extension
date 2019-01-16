@@ -16,6 +16,6 @@
     "js": ["./content_script.js"]
   }],
   "permissions": [
-    "*://*.trisolaries.com/*"
+    "*://*.trisolar.top/*"
   ]
 }

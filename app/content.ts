@@ -43,7 +43,7 @@ function coverUser(): void {
 }
 
 function init() {
-    console.log('init')
+    console.log('AcFun CIP Init');
     addMagicButton();
     coverUser();
 }
@@ -61,13 +61,11 @@ if (hasComments()) {
         const comment = document.getElementById('area-comment-inner');
         const config = { attributes: true, childList: true, subtree: true };
         const observer = new MutationObserver(function(mutationsList) {
-            console.log(mutationsList)
             for (let mutation of mutationsList) {
                 if (mutation.addedNodes.length > 0) {
                     for (const el of Array.from(mutation.addedNodes)) {
                         const classList = (el as Element).classList;
                         if (classList && classList.contains('comment-item')) {
-                            console.log('debounceInit')
                             debounceInit();
                             return;
                         }
@@ -113,31 +111,31 @@ if (hasComments()) {
             // 移除不必要的
             $(this).remove();
 
-            // 设置评论
-            if (res.userId !== -1) {
-                $.ajax({
-                    url: 'http://www.acfun.cn/u/profile.aspx',
-                    method: 'get',
-                    data: {
-                        userId: res.userId
-                    }
-                })
-                .then((res) => {
-                    if (res.code !== 200) {
-                        return;
-                    }
-                    const $authorComment = $itemComment.children('.comment-name-bar .name[href*="/u/0.aspx"]');
-                    // 移除不必要的
-                    $authorComment.find('.name[data-type="cover"]').remove();
+            // @todo 恢复评论的用户信息
+            // if (res.userId !== -1) {
+            //     $.ajax({
+            //         url: 'http://www.acfun.cn/u/profile.aspx',
+            //         method: 'get',
+            //         data: {
+            //             userId: res.userId
+            //         }
+            //     })
+            //     .then((res) => {
+            //         if (res.code !== 200) {
+            //             return;
+            //         }
+            //         const $authorComment = $itemComment.children('.comment-name-bar .name[href*="/u/0.aspx"]');
+            //         // 移除不必要的
+            //         $authorComment.find('.name[data-type="cover"]').remove();
 
-                    const $name = $authorComment.find('.name:contains(用户不存在或已删除)');
-                    const href = $name.attr('href').replace('0.aspx', res.result.userId + '.aspx');
-                    $name.attr('data-uid',  res.result.userId).attr('href', href).text(res.result.username).show();
+            //         const $name = $authorComment.find('.name:contains(用户不存在或已删除)');
+            //         const href = $name.attr('href').replace('0.aspx', res.result.userId + '.aspx');
+            //         $name.attr('data-uid',  res.result.userId).attr('href', href).text(res.result.username).show();
 
-                    // 显示时间
-                    $itemComment.children('.author-comment:has(.time_)').css('visibility', 'visible');
-                })
-            }
+            //         // 显示时间
+            //         $itemComment.children('.author-comment:has(.time_)').css('visibility', 'visible');
+            //     })
+            // }
         })
         .catch((err) => {
             console.log(err)
